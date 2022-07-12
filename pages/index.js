@@ -83,12 +83,17 @@ import { useViewerRecord } from "@self.id/react";
 
 function RecordSetter() {
   const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+
   const record = useViewerRecord("basicProfile");
 
- const updateRecordName = async (name) => {
+ const updateRecord = async () => {
     await record.merge({
       name: name,
+      age: age
     });
+    setAge("");
+    setName("");
   };  
 
   return (
@@ -98,6 +103,9 @@ function RecordSetter() {
           <div className={styles.flexCol}>
             <span className={styles.subtitle}>
               Hello {record.content.name}!
+            </span>
+            <span className={styles.subtitle}>
+              Your Age is {record.content.age}.
             </span>
 
             <span>
@@ -113,6 +121,7 @@ function RecordSetter() {
         )}
       </div>
 
+      <label>Name:</label>
       <input
         type="text"
         placeholder="Name"
@@ -120,8 +129,16 @@ function RecordSetter() {
         onChange={(e) => setName(e.target.value)}
         className={styles.mt2}
       />
-      <button onClick={() => updateRecordName(name)}>Update</button>
+      <label>Age:</label>
+      <input
+        type="text"
+        placeholder="Age"
+        value={age}
+        onChange={(e) => setAge(e.target.value)}
+        className={styles.mt2}
+      />
+      
+      <button onClick={() => updateRecord()}>Update</button>
     </div>
   );
-
 }
